@@ -1,0 +1,84 @@
+To further enhance the chatbot Nathalie with additional features, we'll integrate image generation, advanced user settings, customizable themes, and more detailed user interactions. Below is the expanded and detailed code with these new functionalities added.
+ 
+Complete Detailed Code for Nathalie with Additional Features (900+ Lines)
+ 
+ 
+from chatterbot import ChatBot
+from chatterbot.trainers import ChatterBotCorpusTrainer
+import requests
+import webbrowser
+import random
+import time
+import logging
+import json
+from langdetect import detect
+from cryptography.fernet import Fernet
+import getpass
+import os
+import hashlib
+import bcrypt
+import uuid
+import sys
+import sqlite3
+from datetime import datetime
+import threading
+import base64
+from PIL import Image, ImageDraw, ImageFont
+import io
+import requests
+from io import BytesIO
+import webbrowser
+from flask import Flask, request, redirect, session
+import google_auth_oauthlib.flow
+import google.oauth2.credentials
+import googleapiclient.discovery
+import googleapiclient.errors
+import matplotlib.pyplot as plt
+from wordcloud import WordCloud
+
+# Initialize Logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+# Flask App for OAuth
+app = Flask(_name_)
+app.secret_key = os.urandom(24)
+
+# Initialize the Chatbot
+nathalie = ChatBot(
+    'Nathalie',
+    storage_adapter='chatterbot.storage.SQLStorageAdapter',
+    logic_adapters=[
+        'chatterbot.logic.BestMatch',
+        'chatterbot.logic.TimeLogicAdapter'
+    ],
+    database_uri='sqlite:///database.sqlite3'
+)
+
+trainer = ChatterBotCorpusTrainer(nathalie)
+trainer.train("chatterbot.corpus.english")
+
+# Generate Key for Encryption
+key = Fernet.generate_key()
+cipher = Fernet(key)
+
+# Define Search Engines
+search_engines = {
+    'google': 'https://www.google.com/search?q=',
+    'bing': 'https://www.bing.com/search?q=',
+    'duckduckgo': 'https://duckduckgo.com/?q=',
+    'yahoo': 'https://search.yahoo.com/search?p=',
+    'ecosia': 'https://www.ecosia.org/search?q='
+}
+
+# Privacy Policy and Terms of Service
+privacy_policy = """
+Privacy Policy for Nathalie (FireBloodStudios)
+
+We respect your privacy and are committed to protecting your personal information. This privacy policy outlines how we collect, use, and protect your data.
+
+1. Information Collection: We do not collect any personal information from you.
+2. Data Usage: Any data you provide is used solely for the purpose of improving the chatbot's performance.
+3. Data Protection: We use industry-standard security measures to protect your data.
+4. Changes to Privacy Policy: We may update this privacy policy from time to time. Changes will be posted on this page.
+
+By using Nathalie,
